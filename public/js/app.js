@@ -19,8 +19,18 @@
         setCurrentCat:function(cat){
             model.currentCat = cat
         },
+        getCats:function(){
+            return model.cats;
+        },
         addScore:function(){
             model.currentCat.score++;
+            view.renderItem();
+        },
+        updateCat:function(name, image, score){
+            model.currentCat.name = name;
+            model.currentCat.image = image;
+            model.currentCat.score = score;
+            //
             view.renderItem();
         }
     }
@@ -31,6 +41,41 @@
             this.catName = document.getElementById("catName");
             this.catImage = document.getElementById("catImage");
             this.catScore = document.getElementById("catScore");
+            //
+            this.btAdmin = document.getElementById("btAdmin");
+            this.editForm = document.getElementById("editForm");
+            this.btCancel = document.getElementById("btCancel");
+            this.btSave = document.getElementById("btSave");
+            //
+            this.iName = document.getElementById("cName");
+            this.iImage = document.getElementById("cImage");
+            this.iScore = document.getElementById("cScore");
+            
+            btAdmin.addEventListener("click", (function(form){
+                return function(){
+                    form.classList.remove("hidden");
+                    view.renderItem();
+                }
+                
+            })(this.editForm));
+
+            btCancel.addEventListener("click", (function(form){
+                return function(){
+                    form.classList.add("hidden");
+                    view.renderItem();
+                }
+            })(this.editForm));
+
+            btSave.addEventListener("click", (function(form){
+                return function(){
+                    controller.updateCat(view.iName.value, view.iImage.value, view.iScore.value);
+                }
+            })(this.editForm));
+
+            editForm.addEventListener("submit", function(e){
+                e.preventDefault();
+            })
+            
             
             this.catImage.addEventListener("click", function(e){
                 controller.addScore();
@@ -48,7 +93,6 @@
 
                 li.addEventListener("click", (function(cat){
                     return function(){
-                        console.log("event triggered");
                         controller.setCurrentCat(cat);
                         view.renderItem();
                     }
@@ -59,10 +103,14 @@
         },
         renderItem:function(){
             let cat = controller.getCurrentCat();
-            console.log(cat);
+            
             catName.textContent = cat.name;
             catImage.src = cat.image;
             catScore.textContent = cat.score;
+            //
+            this.iName.value = cat.name;
+            this.iImage.value = cat.image;
+            this.iScore.value = cat.score;
         }
     }
 
