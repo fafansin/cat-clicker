@@ -7,25 +7,28 @@
     <link rel="stylesheet" href="public/css/app.css">
 </head>
 <body>
-    <ul id="catList"></ul>
+    <h3>List of Cats</h3>
+    <ul id="catList" data-bind="foreach: catList">
+        <li data-bind="text: catName, click:$parent.selectCat"></li>
+    </ul>
     
-    <div id="catView" class="cat card">
-        <h1 id="catName"></h1>
-        <img id="catImage" alt="cat's image">
-        <h2 id="catScore"></h2>
+    <div id="catView" class="cat card" data-bind="with: currentCat()">
+        <h1 id="catName" data-bind="text: catName"></h1>
+        <img id="catImage" data-bind="click: $parent.addScore, attr:{src: imageURL }" alt="cat's image">
+        <h2 id="catScore" data-bind="text: score"></h2>
+        <h3 data-bind="text: level"></h3>
+
+        <div class="info">
+            <strong>Nicknames</strong>
+            <ul data-bind="foreach: nickNames">
+                <li data-bind="text: $data"></li>
+            </ul>
+        </div>
     </div>
-    <button id="btAdmin">Admin</button>
-    <form id="editForm" class="hidden">
-        <input type="text" name="" id="cName" placeholder="cName">
-        <br>
-        <input type="text" name="" id="cImage" placeholder="cImage">
-        <br>
-        <input type="text" name="" id="cScore" placeholder="cScore">
-        <br>
-        <button id="btCancel">Cancel</button>
-        <button id="btSave">Save</button>
-    </form>
-    
+
+
+    <script src="public/js/knockout-min.js"></script>
     <script src="public/js/app.js"></script>
+
 </body>
 </html>

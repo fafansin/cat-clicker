@@ -19,3 +19,7 @@
 li{
     cursor: pointer;
 }
+#catView .info{
+    text-align: left;
+    padding-left: 10px;
+}
